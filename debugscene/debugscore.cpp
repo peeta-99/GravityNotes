@@ -334,7 +334,7 @@ void Debugscore_Initialize(void)
 		30.0f,
 		0,
 		{ 1.0f, 1.0f, 1.0f, 0.7f },
-		"F,G,H,J : ノーツタップ / F1 : 初めから / ESC : タイトルに戻る"
+		"F,G,H,J : ノーツタップ / F1 : 頭出し / ESC : タイトルに戻る"
 	);
 
 	g_ElapsedTime = 0.0f;
