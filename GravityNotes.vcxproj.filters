@@ -225,6 +225,9 @@
     <FxCompile Include="shader\RimLightVS.hlsl">
       <Filter>フレームワーク\シェーダー</Filter>
     </FxCompile>
+    <FxCompile Include="shader\shader_vertex_skinning.hlsl">
+      <Filter>フレームワーク\3D</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="framework\DirectXTex.inl">
@@ -234,6 +237,9 @@
       <Filter>マークダウン</Filter>
     </None>
     <None Include="markdown\direct3d_viewport_resize_spec.md">
+      <Filter>マークダウン</Filter>
+    </None>
+    <None Include="markdown\shader_vertex_skinning_spec.md">
       <Filter>マークダウン</Filter>
     </None>
   </ItemGroup>
