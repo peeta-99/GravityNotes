@@ -225,6 +225,12 @@
     <FxCompile Include="shader\RimLightVS.hlsl">
       <Filter>フレームワーク\シェーダー</Filter>
     </FxCompile>
+    <FxCompile Include="shader\OutlinePS.hlsl">
+      <Filter>フレームワーク\シェーダー</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\OutlineVS.hlsl">
+      <Filter>フレームワーク\シェーダー</Filter>
+    </FxCompile>
     <FxCompile Include="shader\shader_vertex_skinning.hlsl">
       <Filter>フレームワーク\3D</Filter>
     </FxCompile>
