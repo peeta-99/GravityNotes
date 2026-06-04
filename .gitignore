@@ -367,5 +367,4 @@ FodyWeavers.xsd
 .aider*
 
 # Claude Code personal settings
-.claude/settings.local.json
 .claude/CLAUDE.md

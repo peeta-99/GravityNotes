@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **日本語で返答する**
 - **ビルドは実行しない** — コードの編集のみ行う
 - **ファイルパスは推測せず、実ファイル構造を確認してから参照する**
-- **コード編集は'haruki/~'のみ。それ以外のファイルのコード編集はしないが提案は可、編集はこちらで行う**
+- **コード編集は'gameplay/~'のみ。それ以外のファイルのコード編集はしないが提案は可、編集はこちらで行う**
 
 ## ファイルエンコーディング
 
@@ -16,7 +16,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## ビルド
 
-Visual Studio 2022 でソリューションファイル `GravityNotes.sln` を開いてビルドする。  
+Visual Studio 2026 でソリューションファイル `GravityNotes.sln` を開いてビルドする。  
 構成: Debug / Release、プラットフォーム: Win32 / x64。  
 シェーダー（.hlsl）はビルド時に FX Compiler (DX11) で `.cso` バイトコードへ自動コンパイルされる。
 
