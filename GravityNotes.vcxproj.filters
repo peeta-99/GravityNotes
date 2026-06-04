@@ -25,6 +25,12 @@
     <ClCompile Include="framework\keyboard.cpp">
       <Filter>フレームワーク\etc</Filter>
     </ClCompile>
+    <ClCompile Include="framework\input_manager.cpp">
+      <Filter>フレームワーク\etc</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\gamepad.cpp">
+      <Filter>フレームワーク\etc</Filter>
+    </ClCompile>
     <ClCompile Include="framework\main.cpp">
       <Filter>フレームワーク\etc</Filter>
     </ClCompile>
@@ -93,6 +99,9 @@
     <ClCompile Include="framework\imgui\imgui_widgets.cpp">
       <Filter>フレームワーク\imgui</Filter>
     </ClCompile>
+    <ClCompile Include="framework\input_monitor_console.cpp">
+      <Filter>フレームワーク\etc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework\camera.h">
@@ -126,6 +135,12 @@
       <Filter>フレームワーク\2D</Filter>
     </ClInclude>
     <ClInclude Include="framework\keyboard.h">
+      <Filter>フレームワーク\etc</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\input_manager.h">
+      <Filter>フレームワーク\etc</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\gamepad.h">
       <Filter>フレームワーク\etc</Filter>
     </ClInclude>
     <ClInclude Include="framework\main.h">
@@ -216,6 +231,9 @@
     </ClInclude>
     <ClInclude Include="framework\imgui\imgui.h">
       <Filter>フレームワーク\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\input_monitor_console.h">
+      <Filter>フレームワーク\etc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
