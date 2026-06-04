@@ -76,7 +76,17 @@ enum	BLENDSTATE
 	BLENDSTATE_MAX
 };
 
+enum CULLSTATE
+{
+	CULLSTATE_NONE = 0,
+	CULLSTATE_FRONT,
+	CULLSTATE_BACK,
+
+	CULLSTATE_MAX
+};
+
 void SetBlendState(BLENDSTATE blend);
+void SetCullState(CULLSTATE cull);
 
 //*****************************************************************************
 // プロトタイプ宣言

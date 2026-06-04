@@ -66,6 +66,7 @@ static AnimSprite3D* g_pKirbyAnim = nullptr;
 static const float MODEL_SPACING = 5.0f;  // モデル同士の間隔
 static const float LABEL_RANGE = 8.0f;  // この距離以内で名前を表示
 static const float RIM_LIGHT_BRIGHTNESS = 1.0f; // リムライトの明るさ（距離減衰なしの定数値で表現）
+static const float OUTLINE_WIDTH = 0.009f; // アウトラインの太さ
 
 // 原点キューブ表示用
 static MODEL* g_pCubeModel = nullptr;
@@ -374,6 +375,25 @@ void DebugModelScene_Draw(void)
 	}
 
 	// 家具描画（展示モデル＋ビルボードアイコン含む）
+	/*SetParameter(XMFLOAT4(OUTLINE_WIDTH, 0.0f, 0.0f, 0.0f));
+	SetCullState(CULLSTATE_FRONT);
+	for (int i = 0; i < (int)g_Entries.size(); i++)
+	{
+		if (g_Entries[i].pModel)
+		{
+			ModelDraw(
+				g_Entries[i].pModel,
+				g_Entries[i].worldPos,
+				{ 0.0f, 0.0f, 0.0f },
+				{ 1.0f, 1.0f, 1.0f },
+				XMFLOAT4(0.02f, 0.025f, 0.035f, 1.0f),
+				true,
+				S_OUTLINE
+			);
+		}
+	}
+	SetCullState(CULLSTATE_NONE);*/
+
 	SetParameter(XMFLOAT4(RIM_LIGHT_BRIGHTNESS, 0.0f, 0.0f, 0.0f));
 	for (int i = 0; i < (int)g_Entries.size(); i++)
 	{
@@ -386,7 +406,7 @@ void DebugModelScene_Draw(void)
 				{ 1.0f, 1.0f, 1.0f },
 				XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f),
 				false,
-				S_PHONG
+				S_RIM_LIGHT
 			);
 		}
 	}

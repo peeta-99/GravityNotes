@@ -10,6 +10,7 @@ enum SHADERTYPE {
 	S_LAMBERT,
 	S_PHONG,
 	S_RIM_LIGHT,
+	S_OUTLINE,
 	S_MAX,
 };
 
@@ -17,7 +18,8 @@ const std::string filenames[S_MAX] = {
 	"UnlitTexture",
 	"VertexDirectionalLighting",
 	"PixelDirectionalLighting",
-	"RimLight"
+	"RimLight",
+	"Outline"
 };
 
 class ShaderManager

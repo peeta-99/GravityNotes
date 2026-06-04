@@ -56,6 +56,7 @@ ID3D11DepthStencilState* g_DepthStateDisable;
 
 static float	bFactor[4] = { 0.0f,0.0f,0.0f,0.0f };
 static ID3D11BlendState* bState[BLENDSTATE_MAX];
+static ID3D11RasterizerState* rState[CULLSTATE_MAX];
 
 // ウィンドウクライアントサイズ（ビューポート計算用）
 static float g_ClientWidth  = DRAW_SCREEN_WIDTH;
@@ -313,6 +314,12 @@ void SetBlendState(BLENDSTATE blend)
 
 }
 
+void SetCullState(CULLSTATE cull)
+{
+	if (cull < 0 || cull >= CULLSTATE_MAX) return;
+	g_ImmediateContext->RSSetState(rState[cull]);
+}
+
 //=============================================================================
 // 初期化処理
 //=============================================================================
@@ -360,22 +367,23 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	configureBackBuffer();
 
 	// ラスタライザステート設定
-	D3D11_RASTERIZER_DESC rd; 
-	ZeroMemory( &rd, sizeof( rd ) );
-	rd.FillMode = D3D11_FILL_SOLID; 
-	//	rd.CullMode = D3D11_CULL_NONE;	//カリングしない（裏も表も表示しちゃう）
-	rd.CullMode = D3D11_CULL_NONE;	// まずは描画有無を確認するためカリングを無効化
-//	rd.CullMode = D3D11_CULL_FRONT;	//表面をカリングする（表面は表示しない）
+	D3D11_RASTERIZER_DESC rd;
+	ZeroMemory(&rd, sizeof(rd));
+	rd.FillMode = D3D11_FILL_SOLID;
+	rd.DepthClipEnable = TRUE;
+	rd.MultisampleEnable = FALSE;
 
-	rd.DepthClipEnable = TRUE; 
-	rd.MultisampleEnable = FALSE; 
-
-	ID3D11RasterizerState *rs;
-	g_D3DDevice->CreateRasterizerState( &rd, &rs );
-
-	g_ImmediateContext->RSSetState( rs );
-
-
+	D3D11_CULL_MODE cullMode[CULLSTATE_MAX] = {
+		D3D11_CULL_NONE,
+		D3D11_CULL_FRONT,
+		D3D11_CULL_BACK
+	};
+	for (int i = 0; i < CULLSTATE_MAX; i++)
+	{
+		rd.CullMode = cullMode[i];
+		g_D3DDevice->CreateRasterizerState(&rd, &rState[i]);
+	}
+	SetCullState(CULLSTATE_NONE);
 
 
 	// ブレンドステート設定
@@ -489,7 +497,9 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	g_ImmediateContext->PSSetConstantBuffers(5, 1, &g_CameraBuffer);
 
 	g_D3DDevice->CreateBuffer(&hBufferDesc, NULL, &g_ParameterBuffer);
+	g_ImmediateContext->VSSetConstantBuffers(6, 1, &g_ParameterBuffer);
 	g_ImmediateContext->PSSetConstantBuffers(6, 1, &g_ParameterBuffer);
+	SetParameter(XMFLOAT4(1.0f, 0.0f, 0.0f, 0.0f));
 
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
@@ -513,6 +523,10 @@ void FinalizeRenderer(void)
 	if( g_VertexLayout )		g_VertexLayout->Release();
 	if( g_VertexShader )		g_VertexShader->Release();
 	if( g_PixelShader )			g_PixelShader->Release();
+	for (int i = 0; i < CULLSTATE_MAX; i++)
+	{
+		SAFE_RELEASE(rState[i]);
+	}
 
 	if( g_ImmediateContext )	g_ImmediateContext->ClearState();
 	releaseBackBuffer();
