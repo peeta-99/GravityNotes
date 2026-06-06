@@ -44,6 +44,7 @@ struct PS_IN
     float4 Normal : NORMAL0;
     float4 Diffuse : COLOR0;
     float2 TexCoord : TEXCOORD0;
+    float4 ShadowPosition : TEXCOORD1;
 };
 
 //ライト構造体 今後使用するライトのデータを受け取る構造体
@@ -77,3 +78,28 @@ cbuffer ParameterBuffer : register(b6)
 {
     float4 Parameter;
 };
+
+cbuffer ShadowBuffer : register(b8)
+{
+    matrix LightViewProjection;
+    float4 ShadowParam; // x: bias, y: shadow brightness
+};
+
+Texture2D g_ShadowMap : register(t1);
+SamplerState g_ShadowSampler : register(s1);
+
+float CalcShadow(float4 shadowPosition)
+{
+    float3 proj = shadowPosition.xyz / shadowPosition.w;
+    float2 uv = float2(proj.x * 0.5f + 0.5f, -proj.y * 0.5f + 0.5f);
+
+    if (uv.x < 0.0f || uv.x > 1.0f || uv.y < 0.0f || uv.y > 1.0f || proj.z < 0.0f || proj.z > 1.0f)
+    {
+        return 1.0f;
+    }
+
+    float shadowDepth = g_ShadowMap.Sample(g_ShadowSampler, uv).r;
+    float currentDepth = proj.z - ShadowParam.x;
+
+    return (currentDepth > shadowDepth) ? ShadowParam.y : 1.0f;
+}

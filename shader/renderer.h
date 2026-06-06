@@ -66,6 +66,12 @@ struct LIGHT
 	XMFLOAT4	PointLightParam;
 };
 
+struct SHADOW_CONSTANT
+{
+	XMFLOAT4X4 LightViewProjection;
+	XMFLOAT4 Param;	// x:深度のずれ防止 y:影部分の明るさ
+};
+
 enum	BLENDSTATE
 {
 	BLENDSTATE_NONE = 0,	//ブレンドしない
@@ -114,6 +120,9 @@ void SetCameraPosition(XMFLOAT3 CameraPosition);
 
 void SetParameter(XMFLOAT4 Parameter);
 
+void SetShadowMatrix(XMMATRIX LightViewProjection, XMFLOAT4 Param);
+void BeginShadowMap(void);
+void EndShadowMap(void);
 
 
 void SetMaterial( MATERIAL Material );

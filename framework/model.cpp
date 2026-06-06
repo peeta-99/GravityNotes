@@ -1148,6 +1148,33 @@ void ModelDraw(MODEL* model, XMFLOAT3 pos, XMFLOAT3 rot, XMFLOAT3 scale, const X
 	RenderNode(model, model->AiScene->mRootNode, identity, finalColor, useColorReplace);
 }
 
+void ModelDrawShadowMap(MODEL* model, XMFLOAT3 pos, XMFLOAT3 rot, XMFLOAT3 scale, XMMATRIX lightView, XMMATRIX lightProjection)
+{
+	if (!model) return;
+
+	GetDeviceContext()->IASetInputLayout(GetShader(S_SHADOW_MAP)->GetVertexLayout());
+	GetDeviceContext()->VSSetShader(GetShader(S_SHADOW_MAP)->GetVertexShader(), NULL, 0);
+	GetDeviceContext()->PSSetShader(GetShader(S_SHADOW_MAP)->GetPixelShader(), NULL, 0);
+
+	XMMATRIX TranslationMatrix = XMMatrixTranslation(pos.x, pos.y, pos.z);
+	XMMATRIX RotationMatrix = XMMatrixRotationRollPitchYaw(
+		XMConvertToRadians(rot.x),
+		XMConvertToRadians(rot.y),
+		XMConvertToRadians(rot.z));
+	XMMATRIX ScalingMatrix = XMMatrixScaling(scale.x, scale.y, scale.z);
+
+	XMMATRIX World = ScalingMatrix * RotationMatrix * TranslationMatrix;
+
+	SetWorldMatrix(World);
+	SetViewMatrix(lightView);
+	SetProjectionMatrix(lightProjection);
+
+	GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	XMMATRIX identity = XMMatrixIdentity();
+	RenderNode(model, model->AiScene->mRootNode, identity, XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), false);
+}
+
 void ModelAnimationDraw(MODEL* model, XMFLOAT3 pos, XMFLOAT3 rot, XMFLOAT3 scale, const BoneMatrices& boneMatrices, const XMFLOAT4& color, bool useColorReplace, SHADERTYPE shadertype, const AnimationClip* clip, double animTime)
 {
 	if (!model) return;

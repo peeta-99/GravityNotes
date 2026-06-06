@@ -11,6 +11,8 @@ enum SHADERTYPE {
 	S_PHONG,
 	S_RIM_LIGHT,
 	S_OUTLINE,
+	S_SHADOW_MAP,
+	S_SHADOW_RECEIVE,
 	S_MAX,
 };
 
@@ -19,7 +21,9 @@ const std::string filenames[S_MAX] = {
 	"VertexDirectionalLighting",
 	"PixelDirectionalLighting",
 	"RimLight",
-	"Outline"
+	"Outline",
+	"ShadowMap",
+	"ShadowReceive"
 };
 
 class ShaderManager
