@@ -42,32 +42,32 @@ void StageSelect_Initialize(void)
 
 	// Khởi tạo hàng đĩa bên trái và nút bấm tương ứng
 	for (int i = 0; i < MAX_STAGES; i++) {
-		float posX = 200.0f;
-		float posY = 200.0f + (i * 150.0f); // Tọa độ Y dịch chuyển dần xuống dưới
+		float posX = 130.0f;
+		float posY = 50.0f + (i * 150.0f); // Tọa độ Y dịch chuyển dần xuống dưới
 
 		g_pStageDisks[i] = new Sprite2D(
 			{ posX, posY },
-			{ 300.0f, 300.0f },
+			{ 150.0f, 150.0f },
 			0.0f,
 			{ 1.0f, 1.0f, 1.0f, 1.0f },
 			BLENDSTATE_NONE,
-			L"asset\\texture\\tex.png"
+			L"asset\\texture\\vinmain.png"
 		);
 
 		// Đặt chữ/nút đè đúng lên vị trí của chiếc đĩa đó
 		g_pStageButtons[i] = new ClickFont(
-			{ posX, posY },
-			30.0f, // Giảm size chữ một chút cho vừa khít cái đĩa
+			{ SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 4.0f * 3.5 },
+			50.0f, // Giảm size chữ một chút cho vừa khít cái đĩa
 			0.0f,
 			{ 1.0f, 1.0f, 1.0f, 1.0f },
 			{ 1.0f, 0.8f, 0.2f, 1.0f },
-			"Stage" // Tạm thời đặt tên chung, bạn có thể custom tùy ý
+			"PLAY" // Tạm thời đặt tên chung, bạn có thể custom tùy ý
 		);
 	}
 
 	// Khởi tạo đĩa chính ở GIỮA màn hình
 	g_pMainVinyl = new Sprite2D(
-		{ SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f },
+		{ SCREEN_WIDTH / 2.0f-85.0f, SCREEN_HEIGHT / 2.0f +2.0f},
 		{ 500.0f, 500.0f },
 		0.0f,
 		{ 1.0f, 1.0f, 1.0f, 1.0f },
