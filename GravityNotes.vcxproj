@@ -164,6 +164,7 @@
     <ClCompile Include="debugscene\debug_model_scene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="debug_ui.cpp" />
     <ClCompile Include="field.cpp" />
     <ClCompile Include="framework\anim_sprite3d.cpp" />
     <ClCompile Include="framework\billboard.cpp" />
@@ -194,7 +195,6 @@
     <ClCompile Include="framework\sound.cpp" />
     <ClCompile Include="framework\sprite2d.cpp" />
     <ClCompile Include="framework\texture.cpp" />
-    <ClCompile Include="komachi\debug_ui.cpp" />
     <ClCompile Include="mouse.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="player.cpp" />
@@ -216,6 +216,8 @@
     <ClInclude Include="debugscene\debug_model_scene.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="debug_params.h" />
+    <ClInclude Include="debug_ui.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="framework\anim_sprite3d.h" />
@@ -254,8 +256,6 @@
     <ClInclude Include="framework\sprite3d.h" />
     <ClInclude Include="framework\stb_truetype.h" />
     <ClInclude Include="framework\texture.h" />
-    <ClInclude Include="komachi\debug_params.h" />
-    <ClInclude Include="komachi\debug_ui.h" />
     <ClInclude Include="mouse.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="player.h" />

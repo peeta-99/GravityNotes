@@ -9,15 +9,19 @@
 #include "mouse.h"
 #include "model.h"
 #include "debugcamera.h"
-#include "komachi/debug_ui.h"
+#include "debug_ui.h"
 #include "sound.h"
 #include "ClickFont.h"
+
+#include "field.h"
 
 using namespace DirectX;
 
 // ①インスタンス、ポインタ用意
 static Sprite2D* g_pGameSprite = nullptr;
 static ClickFont* g_pChangeSceneText = nullptr;
+
+static Field* g_pField;
 
 void Game_Initialize(void)
 {
@@ -40,6 +44,8 @@ void Game_Initialize(void)
 		"[game.cpp] リザルトへ"										//テキスト
 	);
 
+	g_pField->Init();
+
 	UnLockMouse();//マウスアンロック
 }
 
@@ -48,6 +54,8 @@ void Game_Update(void)
 	//3D描画
 	{
 		SetDepthEnable(true);
+
+		g_pField->Update();
 
 		SetDepthEnable(false);
 	}
@@ -69,8 +77,9 @@ void Game_Update(void)
 void Game_Draw(void)
 {
 	//④描画
-	g_pGameSprite->Draw();
-	g_pChangeSceneText->Draw();
+	//g_pGameSprite->Draw();
+	//g_pChangeSceneText->Draw();
+	g_pField->Draw();
 }
 
 void Game_Finalize(void)
@@ -78,4 +87,5 @@ void Game_Finalize(void)
 	//⑤解放
 	SAFE_DELETE(g_pGameSprite);
 	SAFE_DELETE(g_pChangeSceneText);
+	SAFE_DELETE(g_pField);
 }
