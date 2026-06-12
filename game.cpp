@@ -13,8 +13,12 @@
 #include "sound.h"
 #include "ClickFont.h"
 #include "scene.h"
+#include "gamepad.h"
+#include "camera.h"
 
 #include "field.h"
+#include "player.h"
+#include "gamecamera.h"
 
 using namespace DirectX;
 
@@ -23,79 +27,104 @@ static Sprite2D* g_pGameSprite = nullptr;
 static ClickFont* g_pChangeSceneText = nullptr;
 static FontRenderer* g_pSelectedJsonText = nullptr;
 
-static Field* g_pField;
+static Field* g_pField=nullptr;
+static Player* g_pPlayer = nullptr;
 
 void Game_Initialize(void)
 {
 	// ②各種初期化
-	g_pGameSprite = new Sprite2D(
-		{ SCREEN_WIDTH / 2, SCREEN_HEIGHT / 3 },					//位置
-		{ 300.0f, 300.0f },											//サイズ
-		0.0f,														//回転（度）
-		{ 1.0f, 1.0f, 1.0f, 1.0f },									//RGBA
-		BLENDSTATE_NONE,											//BlendState
-		L"asset\\texture\\tex.png"									//テクスチャパス
-	);
+	//g_pGameSprite = new Sprite2D(
+	//	{ SCREEN_WIDTH / 2, SCREEN_HEIGHT / 3 },					//位置
+	//	{ 300.0f, 300.0f },											//サイズ
+	//	0.0f,														//回転（度）
+	//	{ 1.0f, 1.0f, 1.0f, 1.0f },									//RGBA
+	//	BLENDSTATE_NONE,											//BlendState
+	//	L"asset\\texture\\tex.png"									//テクスチャパス
+	//);
 
-	g_pChangeSceneText = new ClickFont(
-		{ SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 4.0f * 3 },			//位置
-		50.0f,														//文字サイズ
-		0.0f,														//回転（度）
-		{ 1.0f, 1.0f, 1.0f, 1.0f },									//通常色
-		{ 1.0f, 0.8f, 0.2f, 1.0f },									//ホバー色
-		"[game.cpp] リザルトへ"										//テキスト
-	);
+	//g_pChangeSceneText = new ClickFont(
+	//	{ SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 4.0f * 3 },			//位置
+	//	50.0f,														//文字サイズ
+	//	0.0f,														//回転（度）
+	//	{ 1.0f, 1.0f, 1.0f, 1.0f },									//通常色
+	//	{ 1.0f, 0.8f, 0.2f, 1.0f },									//ホバー色
+	//	"[game.cpp] リザルトへ"										//テキスト
+	//);
 
-  //フィールドの初期化
-	g_pField = new Field();
-	g_pField->Init();
-  
-  //前シーンで選択されたjsonの仮表示
-	const std::string selectedJson = GetPlayJson();
+	//前シーンで選択されたjsonの仮表示
+	/*const std::string selectedJson = GetPlayJson();
 	g_pSelectedJsonText = new FontRenderer(
 		{ SCREEN_WIDTH / 4.0f, SCREEN_HEIGHT / 2.0f },
 		28.0f,
 		0.0f,
 		{ 1.0f, 1.0f, 1.0f, 1.0f },
 		"Selected JSON: " + (selectedJson.empty() ? std::string("(none)") : selectedJson)
-	);
+	);*/
 
-	UnLockMouse();//マウスアンロック
+	int pad = Gamepad_FindConnectedPlayer();
+	//if (pad < 0)return;//デバック時必要なし
+
+  //各種初期化
+	GameCamera::Init();
+
+	g_pField = new Field();
+	g_pField->Init();
+
+	g_pPlayer = new Player();
+	g_pPlayer->Init();
+
+	//UnLockMouse();//マウスアンロック
 }
 
 void Game_Update(void)
 {
+	DebugCamera_Update();
 	//3D描画
 	{
-		SetDepthEnable(true);
+		GameCamera::Update(g_pPlayer);
+		SetCameraPosition(GetCamera()->GetPos());
 
 		g_pField->Update();
-
-		SetDepthEnable(false);
+		g_pPlayer->Update();
 	}
 
 	//2D描画
 	{
 		//③処理
-		g_pChangeSceneText->Update();
+		//g_pChangeSceneText->Update();
 
 		//ClickFontがクリックされた
-		if (g_pChangeSceneText->IsClick())
+		/*if (g_pChangeSceneText->IsClick())
 		{
 			SetSceneFade(SCENE_RESULT);
-		}
+		}*/
 	}
-	DebugUI_Draw();
+
+	if (Keyboard_IsKeyDownTrigger(KK_D2))Mouse_SetVisible(true);
+	if (Keyboard_IsKeyDownTrigger(KK_D3))Mouse_SetVisible(false);
 }
 
 void Game_Draw(void)
 {
 	//④描画
-	//g_pGameSprite->Draw();
-	//g_pChangeSceneText->Draw();
-	g_pField->Draw();
+	//3D
+	{
+		SetDepthEnable(true);
 
-	g_pSelectedJsonText->Draw();
+		g_pField->Draw();
+		g_pPlayer->Draw();
+
+		SetDepthEnable(false);
+	}
+
+	//2D
+	{
+		//g_pGameSprite->Draw();
+		//g_pChangeSceneText->Draw();
+		//g_pSelectedJsonText->Draw();
+	}
+
+	DebugUI_Draw();
 }
 
 void Game_Finalize(void)
@@ -104,5 +133,8 @@ void Game_Finalize(void)
 	SAFE_DELETE(g_pGameSprite);
 	SAFE_DELETE(g_pSelectedJsonText);
 	SAFE_DELETE(g_pChangeSceneText);
+
 	SAFE_DELETE(g_pField);
+	SAFE_DELETE(g_pPlayer);
+	GameCamera::Finalize();
 }
