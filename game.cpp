@@ -9,10 +9,12 @@
 #include "mouse.h"
 #include "model.h"
 #include "debugcamera.h"
-#include "komachi/debug_ui.h"
+#include "debug_ui.h"
 #include "sound.h"
 #include "ClickFont.h"
 #include "scene.h"
+
+#include "field.h"
 
 using namespace DirectX;
 
@@ -20,6 +22,8 @@ using namespace DirectX;
 static Sprite2D* g_pGameSprite = nullptr;
 static ClickFont* g_pChangeSceneText = nullptr;
 static FontRenderer* g_pSelectedJsonText = nullptr;
+
+static Field* g_pField;
 
 void Game_Initialize(void)
 {
@@ -42,6 +46,10 @@ void Game_Initialize(void)
 		"[game.cpp] リザルトへ"										//テキスト
 	);
 
+  //フィールドの初期化
+	g_pField->Init();
+  
+  //前シーンで選択されたjsonの仮表示
 	const std::string selectedJson = GetPlayJson();
 	g_pSelectedJsonText = new FontRenderer(
 		{ SCREEN_WIDTH / 4.0f, SCREEN_HEIGHT / 2.0f },
@@ -59,6 +67,8 @@ void Game_Update(void)
 	//3D描画
 	{
 		SetDepthEnable(true);
+
+		g_pField->Update();
 
 		SetDepthEnable(false);
 	}
@@ -80,10 +90,12 @@ void Game_Update(void)
 void Game_Draw(void)
 {
 	//④描画
-	g_pGameSprite->Draw();
+	//g_pGameSprite->Draw();
+	//g_pChangeSceneText->Draw();
+	g_pField->Draw();
+	
 	g_pSelectedJsonText->Draw();
-	g_pChangeSceneText->Draw();
-}
+｝
 
 void Game_Finalize(void)
 {
@@ -91,4 +103,5 @@ void Game_Finalize(void)
 	SAFE_DELETE(g_pGameSprite);
 	SAFE_DELETE(g_pSelectedJsonText);
 	SAFE_DELETE(g_pChangeSceneText);
+	SAFE_DELETE(g_pField);
 }

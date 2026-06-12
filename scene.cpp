@@ -10,7 +10,7 @@
 #include "define.h"
 using namespace DirectX;
 
-static SCENE scene = SCENE_DEBUG;
+static SCENE scene = SCENE_GAME;
 static std::string playjson;
 
 void Init( void )
