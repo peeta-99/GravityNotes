@@ -7,10 +7,8 @@
 
 using namespace DirectX;
 
-static constexpr const char* TUNNEL_MODEL = "asset/model/tunnel_segment.fbx";
-
 void Field::Init() {
-	m_Model = ModelLoad("asset/model/tunnel_segment.fbx");
+	m_Position = { 0.0f,0.0f,10.0f };
 }
 
 void Field::Update(){
@@ -32,8 +30,4 @@ void Field::Draw() {
 }
 
 void Field::Finalize() {
-	if (m_Model) {
-		ModelRelease(m_Model); 
-		m_Model = nullptr;
-	}
 }

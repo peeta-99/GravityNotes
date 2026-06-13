@@ -197,6 +197,7 @@
     <ClCompile Include="framework\sound.cpp" />
     <ClCompile Include="framework\sprite2d.cpp" />
     <ClCompile Include="framework\texture.cpp" />
+    <ClCompile Include="gamecamera.cpp" />
     <ClCompile Include="mouse.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="player.cpp" />
@@ -260,6 +261,7 @@
     <ClInclude Include="framework\sprite3d.h" />
     <ClInclude Include="framework\stb_truetype.h" />
     <ClInclude Include="framework\texture.h" />
+    <ClInclude Include="gamecamera.h" />
     <ClInclude Include="mouse.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="player.h" />
