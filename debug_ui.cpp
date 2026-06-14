@@ -18,12 +18,12 @@ void DebugUI_Draw()
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
 
-	ImGui::SetNextWindowSize(ImVec2(300, 300), ImGuiCond_FirstUseEver);
+	/*ImGui::SetNextWindowSize(ImVec2(300, 300), ImGuiCond_FirstUseEver);
 	ImGui::Begin("Camera",&s_IsOpen);
 	{
 		ImGui::Text("Position:%.1f,%.1f,%.1f", GetCamera()->GetPos().x, GetCamera()->GetPos().y, GetCamera()->GetPos().z);
 	}
-	ImGui::End();
+	ImGui::End();*/
 
     /*ImGui::Begin("LD Parameters", &s_IsOpen);
 
