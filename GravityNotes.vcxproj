@@ -153,6 +153,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="barrier_note.cpp" />
     <ClCompile Include="debugscene\debugcamera.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -165,6 +166,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="debug_ui.cpp" />
+    <ClCompile Include="enemy_note.cpp" />
     <ClCompile Include="field.cpp" />
     <ClCompile Include="framework\anim_sprite3d.cpp" />
     <ClCompile Include="framework\billboard.cpp" />
@@ -200,6 +202,9 @@
     <ClCompile Include="gamecamera.cpp" />
     <ClCompile Include="mouse.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="note_base.cpp" />
+    <ClCompile Include="note_manager.cpp" />
+    <ClCompile Include="orb_note.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="result.cpp" />
     <ClCompile Include="scene.cpp" />
@@ -208,6 +213,7 @@
     <ClCompile Include="title.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="barrier_note.h" />
     <ClInclude Include="debugscene\debugcamera.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -222,6 +228,7 @@
     <ClInclude Include="debug_params.h" />
     <ClInclude Include="debug_ui.h" />
     <ClInclude Include="define.h" />
+    <ClInclude Include="enemy_note.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="framework\anim_sprite3d.h" />
     <ClInclude Include="framework\billboard.h" />
@@ -262,8 +269,12 @@
     <ClInclude Include="framework\stb_truetype.h" />
     <ClInclude Include="framework\texture.h" />
     <ClInclude Include="gamecamera.h" />
+    <ClInclude Include="mathhelper.h" />
     <ClInclude Include="mouse.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="note_base.h" />
+    <ClInclude Include="note_manager.h" />
+    <ClInclude Include="orb_note.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="result.h" />

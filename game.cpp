@@ -19,6 +19,7 @@
 #include "field.h"
 #include "player.h"
 #include "gamecamera.h"
+#include "note_manager.h"
 
 using namespace DirectX;
 
@@ -29,6 +30,7 @@ static FontRenderer* g_pSelectedJsonText = nullptr;
 
 static Field* g_pField=nullptr;
 static Player* g_pPlayer = nullptr;
+static NoteManager* g_pNoteManager = nullptr;
 
 void Game_Initialize(void)
 {
@@ -70,15 +72,17 @@ void Game_Initialize(void)
 	g_pField = new Field();
 	g_pField->Init();
 
+	g_pNoteManager = new NoteManager();
+	g_pNoteManager->Init("asset/score/score.json");
+
 	g_pPlayer = new Player();
-	g_pPlayer->Init();
+	g_pPlayer->Init(g_pNoteManager);
 
 	//UnLockMouse();//マウスアンロック
 }
 
 void Game_Update(void)
 {
-	DebugCamera_Update();
 	//3D描画
 	{
 		GameCamera::Update(g_pPlayer);
@@ -86,6 +90,8 @@ void Game_Update(void)
 
 		g_pField->Update();
 		g_pPlayer->Update();
+		g_pNoteManager->Update(g_pPlayer->GetLaneIndex(), g_pPlayer->GetGravityFace());
+
 	}
 
 	//2D描画
@@ -112,6 +118,7 @@ void Game_Draw(void)
 		SetDepthEnable(true);
 
 		g_pField->Draw();
+		g_pNoteManager->Draw();
 		g_pPlayer->Draw();
 
 		SetDepthEnable(false);
@@ -136,5 +143,6 @@ void Game_Finalize(void)
 
 	SAFE_DELETE(g_pField);
 	SAFE_DELETE(g_pPlayer);
+	if (g_pNoteManager) { g_pNoteManager->Finalize(); SAFE_DELETE(g_pNoteManager); }
 	GameCamera::Finalize();
 }
