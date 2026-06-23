@@ -1,4 +1,4 @@
-﻿#include "result.h"
+#include "result.h"
 #include "sprite2d.h"
 #include "texture.h"
 #include "keyboard.h"
@@ -12,7 +12,7 @@
 #include "scoresummaryloader.h"
 #include "scene.h"
 #include "MultiLineFontRenderer.h"
-
+#include <cstdlib>
 using namespace DirectX;
 
 // ①インスタンス、ポインタ用意
@@ -103,17 +103,46 @@ void Result_Update(void)
 		// イージング (Ease-Out Quad)
 		float easeProgress = 1.0f - (1.0f - progress) * (1.0f - progress);
 
+		// スロット＆グリッチ風の数字変換ヘルパー
+		auto ApplySlotGlitch = [&](int currentVal, int targetVal) -> std::string {
+			if (progress >= 1.0f) return std::to_string(targetVal);
+
+			std::string str = std::to_string(currentVal);
+			if (str.empty()) return str;
+
+			// イージングの進行度に応じて、右側の文字をランダム化
+			int randomCount = static_cast<int>(str.length() * (1.0f - progress));
+			if (randomCount < 1 && progress < 1.0f) {
+				randomCount = 1; // 完了するまでは最低下1桁を回す
+			}
+
+			// 右側をランダムな数字にする
+			for (size_t i = str.length() - randomCount; i < str.length(); ++i) {
+				str[i] = '0' + (rand() % 10);
+			}
+
+			// 10%の確率で、それ以外の確定している桁も一瞬だけ文字化けする（グリッチ演出）
+			if (rand() % 100 < 10) {
+				int idx = rand() % str.length();
+				str[idx] = '0' + (rand() % 10);
+			}
+
+			return str;
+		};
+
 		int curScore = static_cast<int>(g_Result.score * easeProgress);
 		int curHit = static_cast<int>((g_Result.success + g_Result.miss) * easeProgress);
 		int curMaxCombo = static_cast<int>(g_Result.maxCombo * easeProgress);
 		int curSuccess = static_cast<int>(g_Result.success * easeProgress);
 		int curMiss = static_cast<int>(g_Result.miss * easeProgress);
 
-		std::string scoreStr = std::to_string(curScore) + "\n" +
-							   std::to_string(curHit) + "\n" +
-							   std::to_string(curMaxCombo) + "\n" +
-							   std::to_string(curSuccess) + "\n" +
-							   std::to_string(curMiss);
+		int targetHit = g_Result.success + g_Result.miss;
+
+		std::string scoreStr = ApplySlotGlitch(curScore, g_Result.score) + "\n" +
+							   ApplySlotGlitch(curHit, targetHit) + "\n" +
+							   ApplySlotGlitch(curMaxCombo, g_Result.maxCombo) + "\n" +
+							   ApplySlotGlitch(curSuccess, g_Result.success) + "\n" +
+							   ApplySlotGlitch(curMiss, g_Result.miss);
 		g_pScoreText->SetText(scoreStr);
 	}
 
