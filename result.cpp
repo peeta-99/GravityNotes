@@ -1,4 +1,4 @@
-﻿#include "result.h"
+#include "result.h"
 #include "sprite2d.h"
 #include "texture.h"
 #include "keyboard.h"
@@ -70,7 +70,7 @@ void Result_Initialize(void)
 		0.0f,																				 // 回転角（度）
 		{ 1.0f, 1.0f, 0.0f, 1.0f },															 // 文字色 RGBA
 		"SCORE :\nHIT数 :\nMAXCOMBO :\nSUCCESS :\nMISS :",						 // 初期テキスト（\nで改行）
-		1.4f,																				 // 行間倍率
+		0.0f,																				 // 行間倍率（アニメーションで広げるため初期値0）
 		TA_START
 	);
 
@@ -80,7 +80,7 @@ void Result_Initialize(void)
 		0.0f,												
 		{ 1.0f, 1.0f, 0.0f, 1.0f },							
 		"0\n0\n0\n0\n0",						 
-		1.4f,												
+		0.0f,												// 行間倍率（アニメーションで広げるため初期値0）
 		TA_START
 	);
 
@@ -102,6 +102,11 @@ void Result_Update(void)
 
 		// イージング (Ease-Out Quad)
 		float easeProgress = 1.0f - (1.0f - progress) * (1.0f - progress);
+
+		// 行間の展開アニメーション (0.0f から 1.4f へ)
+		float currentSpacing = 1.4f * easeProgress;
+		g_pDetailText->SetLineSpacing(currentSpacing);
+		g_pScoreText->SetLineSpacing(currentSpacing);
 
 		int curScore = static_cast<int>(g_Result.score * easeProgress);
 		int curHit = static_cast<int>((g_Result.success + g_Result.miss) * easeProgress);
